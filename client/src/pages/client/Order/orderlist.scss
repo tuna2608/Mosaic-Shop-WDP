@@ -1,0 +1,22 @@
+.orders-container{
+    margin: 70px;
+    .orders-title{
+        margin: 20px 0;
+    }
+}
+.detail-product-card{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    margin-top: 10px;
+    .detail-product-card-img{
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+    }
+    .detail-product-card-title, .detail-product-card-price{
+        color: teal;
+        font-size: 16px;
+    }
+}
