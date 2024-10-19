@@ -204,6 +204,7 @@ const Cart = () => {
   const onToken = (token) => {
     setStripeToken(token);
   };
+  
   // useEffect(() => {
     // const makeRequest = async () => {
     //   try {
@@ -243,9 +244,38 @@ const Cart = () => {
   const handleDeleteCartItem = (cartItemID) => {
     deleteCartItem(dispatch, cartItemID);
   }
-  const handlePayment  = () => {
-    localStorage.setItem("cart", cart || [])
-    navigate(`/payment?amount=${totalPrice}`);
+  
+  const handlePayment  = async () => {
+    try {
+          const res = await userRequest.post("checkout-payos/payment",{
+            userId: user._id,
+            products: cart.cartItems,
+            amount: totalPrice,
+            address: user.address,
+            phone: user.phone,
+            status: "Pending"
+          })
+          createOrder(
+            dispatch,
+            {
+              userId: user._id,
+              products: cart.cartItems,
+              amount: totalPrice,
+              address: user.address,
+              phone: user.phone,
+              status: "Pending"
+            }
+          )
+          deleteCart(dispatch)
+          resetCart(dispatch);
+          navigate("/cart", {
+            state: { stripeData: res.data, products: cart.cartItems },
+          });
+        } catch (error) { }
+
+
+    // localStorage.setItem("cart", cart || [])
+    // navigate(`/payment?amount=${totalPrice}`);
   }
   const [shippingfee] = useState(20000);
 
