@@ -87,16 +87,20 @@ export const NavBar = styled.div`
 
 export const PopUpBox = styled.div`
   position: absolute;
-  right: -10px;
+  right: 0;
   background-color: #fff;
   box-shadow: rgba(112, 112, 120, 0.2) 0px 7px 29px 0px;
-  width: 140px;
-  height: 138px;
+  width: 160px; /* Increase width to prevent overflow */
+  max-width: 160px; /* Add max-width */
+  height: auto; /* Adjust height to fit content */
   display: flex;
   flex-flow: column;
   align-items: center;
-  gap: 2px;
+  gap: 5px;
   z-index: 999;
+  padding: 10px; /* Add padding */
+  border-radius: 4px; /* Optional: Add rounding for better aesthetics */
+  overflow: hidden; /* Hide overflow */
 `
 
 export const PopUpBoxProduct = styled.div`

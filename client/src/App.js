@@ -23,12 +23,21 @@ import AdminProductDetail from "./pages/admin/adminproductdetail/AdminProductDet
 import NewProduct from "./pages/admin/adminproductnew/NewProduct";
 import AdminHome from "./pages/admin/adminHome/AdminHome";
 import AdminOrderList from "./pages/admin/adminorderlist/AdminOrderList";
+import ShopOwnerHome from "./pages/shopowner/shopOwnerHome/shopOwnerHome";
+import ShopOwnerProductList from "./pages/shopowner/shopOnwerProductList/shopOwnerProductList";
+import ShopOwnerOrderList from "./pages/shopowner/shopOnwerOrderList/shopOwnerOrderList";
+import SONewproduct from "./pages/shopowner/shoponwerProductNew/NewProduct";
+import ShopOwnerProductDetail from "./pages/shopowner/shopOwnerProductDetail/ProductDetail";
 
 import OrderList from "./pages/client/Order/OrderList";
 import Profile from "./pages/client/Profile/Profile";
 import UploadPicture from "./pages/client/UploadPicture/UploadPicture";
 import Payment from "./pages/client/Payment/Payment";
 import Introduction from "./pages/client/Introduction/Introduction";
+
+
+
+
 
 function App() {
   // Testing
@@ -84,6 +93,26 @@ function App() {
             element={isAdmin ? <AdminOrderList /> : <Login />}
           />
           {/* End Admin Routes */}
+
+          {/* Shop owner Routes */}
+          <Route path="/shopowner-dashboard/:userId" element={user ? <ShopOwnerHome/> : <Login />} />
+          <Route
+            path="/ShopOwnerProductList"
+            element={user ? <ShopOwnerProductList /> : <Login />}
+          />
+          <Route
+            path="/ShopOwnerProduct/:productId"
+            element={user ? <ShopOwnerProductDetail/> : <Login />}
+          />
+          <Route
+            path="/SOnewProduct"
+            element={user ? <SONewproduct /> : <Login />}
+          />
+          <Route
+            path="/ShopOwnerOrderList"
+            element={user ? <ShopOwnerOrderList /> : <Login />}
+          />
+          {/* End Shop Owner Routes */}
           <Route path="*" element={<Error />} />
           <Route path="/success" element={<Success />} />
         </Routes>

@@ -150,6 +150,11 @@ const Navbar = () => {
     navigate("/orders")
   }
 
+  const handleViewShopOwnerDashboard = (userId) => {
+    getOrdersByUId(dispatch, userId)
+    navigate("/shopownerdashboard")
+  }
+
   const handleViewProfile = (id) => {
     console.log(id);
     navigate(`/profile/id`)
@@ -221,6 +226,9 @@ const Navbar = () => {
                     </Button>
                     <Button onClick={() => handleViewOrders(user._id)}>
                       <ManageSearchIcon />Đơn Hàng
+                    </Button>
+                    <Button onClick={() => handleViewShopOwnerDashboard(user._id)}>
+                      <ManageSearchIcon />Quản Lý Cửa Hàng
                     </Button>
                     <Button
                       style={{ paddingRight: "10px" }}
