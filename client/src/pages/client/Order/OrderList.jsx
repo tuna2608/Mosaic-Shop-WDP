@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../../../components/client/Navbar";
 import Announcement from "../../../components/client/Announcement";
-import Footer from "../../../components/client/Footer";
+// import Footer from "../../../components/client/Footer";
 import { DataGrid } from "@mui/x-data-grid";
 
 import Button from "@mui/material/Button";
@@ -16,6 +16,7 @@ import { formatCurrency } from "../../../utilities/formatCurrency";
 import "./orderlist.scss";
 import { useSelector } from "react-redux";
 import HeaderComponent from "../../../components/client/HeaderComponent/HeaderComponent";
+import FooterComponent from "../../../components/client/FooterComponent/FooterComponent";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -108,7 +109,7 @@ const OrderList = () => {
       <Announcement />
       <div className="orders-container">
         <h1 className="orders-title">Theo Dõi Đơn Hàng</h1>
-        <div style={{ height: "100vh", width: "100%" }}>
+        <div style={{ height: "auto", width: "100%" }}>
           <DataGrid
             disableRowSelectionOnClick
             rows={orders}
@@ -171,7 +172,7 @@ const OrderList = () => {
           </BootstrapDialog>
         )}
       </div>
-      <Footer />
+      <FooterComponent />
     </div>
   );
 };
