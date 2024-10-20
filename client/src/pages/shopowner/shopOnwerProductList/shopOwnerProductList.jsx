@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import "./ProductList.scss"
-import AdminNavBar from '../../../components/admin/adminNavbar/AdminNavBar'
+import React, { useEffect, useState } from 'react';
+import "./ProductList.scss";
+import AdminNavBar from '../../../components/admin/adminNavbar/AdminNavBar';
 import ShopOwnerLeftBar from "../shopownerLeftBar/shopOwnerLeftBar";
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -9,15 +9,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, getProducts } from '../../../redux/apiCalls';
 import { Bounce, toast } from 'react-toastify';     
 
-
 function ShopOwnerProductList() {
-
     const location = useLocation();
-    const [notification, setNotification] = useState(location.state)
+    const [notification, setNotification] = useState(location.state);
+    const dispatch = useDispatch();
 
-    const dispatch = useDispatch()
-
-    // Toast
+    // Toast notifications
     const createdSuccessfully = () => toast.success(`Created Product Successfully!`, {
         position: "top-right",
         autoClose: 1000,
@@ -57,52 +54,46 @@ function ShopOwnerProductList() {
 
     useEffect(() => {
         if (notification === "Created") {
-            createdSuccessfully()
-            setNotification("")
+            createdSuccessfully();
+            setNotification("");
         }
         if (notification === "Updated") {
-            updatedSuccessfully()
-            setNotification("")
+            updatedSuccessfully();
+            setNotification("");
         }
         if (notification === "Deleted") {
-            deletedSuccessfully()
-            setNotification("")
+            deletedSuccessfully();
+            setNotification("");
         }
-    }, [notification])
+    }, [notification]);
 
-    const handleDelete = (id) => {
-        deleteProduct(id, dispatch)
-        setNotification("Deleted")
+    const handleDelete = async (id) => {
+        try {
+            await deleteProduct(id, dispatch);
+            setNotification("Deleted");
+            await getProducts(dispatch); // Tải lại danh sách sản phẩm
+        } catch (error) {
+            console.error("Error deleting product:", error);
+        }
     }
-
+    
     useEffect(() => {
         getProducts(dispatch);
-    }, [dispatch])
+    }, [dispatch]);
 
-    const products = useSelector(state => state.product.products) || []
+    const products = useSelector(state => state.product.products) || [];
+    const user = useSelector(state => state.user.currentUser); // Lấy thông tin người dùng đang đăng nhập
+    const userId = user?._id; // ID người dùng
 
-    const validProducts = products.filter(product => product && product._id);
-
+    // Lọc sản phẩm theo ID người dùng
+    const validProducts = products.filter(product => product && product.userId === userId);
 
     const columns = [
         { field: '_id', headerName: 'ID', width: 210 },
         {
             field: 'product', headerName: 'Product', width: 200, renderCell: (params) => {
-                return <div
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px"
-                    }}>
-                    <img
-                        style={{
-                            width: "26px",
-                            height: "26px",
-                            borderRadius: "50%",
-                            objectFit: "cover"
-                        }}
-                        src={params.row.img}
-                        alt="" />
+                return <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <img style={{ width: "26px", height: "26px", borderRadius: "50%", objectFit: "cover" }} src={params.row.img} alt="" />
                     <p>{params.row.title}</p>
                 </div>
             }
@@ -123,29 +114,13 @@ function ShopOwnerProductList() {
             width: 160,
             renderCell: (params) => {
                 return (
-                    <div
-                        style={{
-                            height: "100%",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "10px"
-                        }}>
+                    <div style={{ height: "100%", display: "flex", alignItems: "center", gap: "10px" }}>
                         <NavLink to={"/ShopOwnerProduct/" + params.row._id}>
-                            <button
-                                style={{
-                                    border: "none",
-                                    borderRadius: "10px",
-                                    padding: "5px 10px",
-                                    background: "#3bb077",
-                                    color: "#fff",
-                                    cursor: "pointer"
-                                }}>
+                            <button style={{ border: "none", borderRadius: "10px", padding: "5px 10px", background: "#3bb077", color: "#fff", cursor: "pointer" }}>
                                 Chỉnh sửa
                             </button>
                         </NavLink>
-                        <DeleteOutlineIcon
-                            style={{ cursor: "pointer", color: "red" }}
-                            onClick={() => handleDelete(params.row._id)} />
+                        <DeleteOutlineIcon style={{ cursor: "pointer", color: "red" }} onClick={() => handleDelete(params.row._id)} />
                     </div>
                 )
             }
@@ -156,7 +131,7 @@ function ShopOwnerProductList() {
         <div className='product-list-container'>
             <AdminNavBar />
             <div className='product-list-bottom'>
-                < ShopOwnerLeftBar/>
+                <ShopOwnerLeftBar />
                 <div className='bottom-right'>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }} className="user-title-container">
                         <h1>Quản Lí Sản Phẩm</h1>
@@ -194,4 +169,4 @@ function ShopOwnerProductList() {
     )
 }
 
-export default ShopOwnerProductList
+export default ShopOwnerProductList;

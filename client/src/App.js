@@ -44,6 +44,7 @@ function App() {
   const user = useSelector((state) => state.user.currentUser);
 
   const isAdmin = user && user.isAdmin;
+  const isShopowner = user && user.isShopowner;
 
   return (
     <>
@@ -98,19 +99,19 @@ function App() {
           <Route path="/shopowner-dashboard/:userId" element={user ? <ShopOwnerHome/> : <Login />} />
           <Route
             path="/ShopOwnerProductList"
-            element={user ? <ShopOwnerProductList /> : <Login />}
+            element={isShopowner ? <ShopOwnerProductList /> : <Login />}
           />
           <Route
             path="/ShopOwnerProduct/:productId"
-            element={user ? <ShopOwnerProductDetail/> : <Login />}
+            element={isShopowner ? <ShopOwnerProductDetail/> : <Login />}
           />
           <Route
             path="/SOnewProduct"
-            element={user ? <SONewproduct /> : <Login />}
+            element={isShopowner ? <SONewproduct /> : <Login />}
           />
           <Route
             path="/ShopOwnerOrderList"
-            element={user ? <ShopOwnerOrderList /> : <Login />}
+            element={isShopowner ? <ShopOwnerOrderList /> : <Login />}
           />
           {/* End Shop Owner Routes */}
           <Route path="*" element={<Error />} />

@@ -52,6 +52,7 @@ router.post('/login', async (req, res) => {
       {
         id: user._id,
         isAdmin: user.isAdmin,
+        isShopowner: user.isShopowner,
       },
       process.env.JWT_SEC,
       { expiresIn: '3d' }

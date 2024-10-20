@@ -142,10 +142,6 @@ function ShopOwnerProductDetail() {
                                     <label for="thanks">Lót ly</label>
                                     <input type="checkbox" name='materials' id="graduation" value="graduation" onChange={handleCheckboxChange} />
                                     <label for="graduation">Mosaics</label>
-                                    {/* <input type="checkbox" name='materials' id="baby" value="baby" onChange={handleCheckboxChange} />
-                                    <label for="baby">Baby</label>
-                                    <input type="checkbox" name='materials' id="birthday" value="birthday" onChange={handleCheckboxChange} />
-                                    <label for="birthday">Birthday</label> */}
                                 </div>
                             </div>
                             <div className="product-form-right">
