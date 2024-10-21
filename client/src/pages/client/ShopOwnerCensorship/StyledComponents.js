@@ -31,4 +31,46 @@ export const SubmitButton = styled.button`
   &:hover {
     background-color: #218838;
   }
+`
+export const TermsBox = styled.div`
+  margin: 20px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  
+  h2 {
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 14px;
+    color: #555;
+  }
+
+  ul {
+    margin-left: 20px;
+    list-style-type: disc;
+  }
+
+  label {
+    display: block;
+    margin-top: 10px;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 10px;
+  }
+`
+export const ImageUploadContainer = styled.div`
+  margin: 20px 0;
+`;
+
+export const ImagePreview = styled.img`
+  margin-top: 10px;
+  width: 200px;
+  height: auto;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  padding: 5px;
+  background-color: #f4f4f4;
 `;

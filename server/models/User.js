@@ -20,6 +20,12 @@ const UserSchema = new mongoose.Schema(
     },
     gender:{type: Boolean},
     img: {type: String},
+    bank: {type: String},
+    banknum: {type: String},
+    validation: {
+      type: Boolean,
+      default: false,
+    }
   },
   { timestamps: true }
 );
