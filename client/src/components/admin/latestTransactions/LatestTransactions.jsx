@@ -54,7 +54,7 @@ function LatestTransactions() {
           <th>Giá</th>
           <th>Trạng Thái</th>
         </tr>
-        {(orders || []).map((order) => (
+        {orders.map((order) => (
           <tr key={order._id}>
             <td className="first-td">
               <h5 style={{ paddingTop: "6px" }}>#{order.userId}</h5>
