@@ -385,7 +385,7 @@ const Product = () => {
                             Mosaics kits test
                         </PopulateTitle>
                         <Link>
-                            <ButtonText class="button-text">See more</ButtonText>
+                            <ButtonText className="button-text">See more</ButtonText>
                         </Link>
                     </ContainerHeader>
                     <ContainerContent>
