@@ -101,12 +101,15 @@ export const getProducts = async (dispatch) => {
 export const deleteProduct = async (id, dispatch) => {
   dispatch(deleteProductStart());
   try {
-    // const res = await userRequest.delete(`/products/${id}`);
+    const res = await userRequest.delete(`/products/${id}`); // Kích hoạt xóa sản phẩm từ DB
     dispatch(deleteProductSuccess(id));
+    toast.success("Product Deleted Successfully!"); // Thông báo xóa thành công
   } catch (error) {
     dispatch(deleteProductFailure());
+    toast.error("Failed to delete product."); // Thông báo lỗi
   }
 };
+
 
 export const updateProduct = async (id, product, dispatch) => {
   dispatch(updateProductStart());

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "./orderlist.scss"
 import AdminNavBar from '../../../components/admin/adminNavbar/AdminNavBar'
-import AdminLeftBar from '../../../components/admin/adminLeftBar/AdminLeftBar'
+import ShopOwnerLeftBar from "../shopownerLeftBar/shopOwnerLeftBar";
 import { DataGrid } from '@mui/x-data-grid';
 // import { userRows } from "../../../data/fakeUserList"
 import { useLocation } from 'react-router-dom';
@@ -29,7 +29,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-function AdminOrderList() {
+function ShopOwnerOrderList() {
     const dispatch = useDispatch();
     useEffect(() => {
         getAllOrders(dispatch);
@@ -164,7 +164,7 @@ function AdminOrderList() {
         <div className='order-list-container'>
             <AdminNavBar />
             <div className='order-list-bottom'>
-                <AdminLeftBar />
+                <ShopOwnerLeftBar/>
                 <div className='bottom-right'>
                     <div className="orders-container">
                         <h1 className="orders-title">Theo Dõi Đơn Hàng</h1>
@@ -236,4 +236,4 @@ function AdminOrderList() {
 }
 
 
-export default AdminOrderList
+export default ShopOwnerOrderList

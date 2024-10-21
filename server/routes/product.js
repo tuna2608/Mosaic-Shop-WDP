@@ -2,6 +2,7 @@ const {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
+  verifyTokenAndAdminOrShopowner
 } = require('../middlewares/verifyToken');
 const Product = require('../models/Product');
 
@@ -11,7 +12,7 @@ const CryptoJS = require('crypto-js');
 
 // Add Product
 
-router.post('/', verifyTokenAndAdmin, async (req, res) => {
+router.post('/', verifyTokenAndAdminOrShopowner, async (req, res) => {
   const newProduct = new Product(req.body);
   try {
     const savedProduct = await newProduct.save();
@@ -22,7 +23,7 @@ router.post('/', verifyTokenAndAdmin, async (req, res) => {
 });
 
 // Update Product
-router.put('/:id', verifyTokenAndAdmin, async (req, res) => {
+router.put('/:id', verifyTokenAndAdminOrShopowner, async (req, res) => {
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
@@ -38,7 +39,7 @@ router.put('/:id', verifyTokenAndAdmin, async (req, res) => {
 });
 
 // Delete Product
-router.delete('/:id', verifyTokenAndAdmin, async (req, res) => {
+router.delete('/:id', verifyTokenAndAdminOrShopowner, async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
     res.status(200).json('Product has been deleted!');
@@ -56,6 +57,17 @@ router.get('/find/:id', async (req, res) => {
     return res.status(500).json(error);
   }
 });
+
+// Get Product by user
+router.get('/my-products', verifyToken, async (req, res) => {
+  try {
+    const products = await Product.find({ userId: req.user.id });
+    res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
+
 
 // Get all Products
 router.get('/', async (req, res) => {

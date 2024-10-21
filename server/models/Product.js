@@ -9,6 +9,7 @@ const ProductSchema = new mongoose.Schema(
     materials: { type: Array },
     price: { type: Number, required: true },
     inStock: { type: Boolean, default: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, // Thêm trường này
   },
   { timestamps: true }
 );

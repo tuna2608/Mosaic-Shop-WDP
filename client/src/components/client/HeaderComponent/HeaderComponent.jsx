@@ -32,6 +32,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import EditIcon from "@mui/icons-material/Edit";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import LoginIcon from "@mui/icons-material/Login";
+import StoreIcon from '@mui/icons-material/Store';
 import { Badge } from "@mui/material";
 
 const HeaderComponent = () => {
@@ -60,6 +61,11 @@ const HeaderComponent = () => {
   const handleViewProfile = (id) => {
     console.log(id);
     navigate(`/profile/id`);
+  };
+
+  const handleViewShopOwner = (id) => {
+    console.log(id);
+    navigate(`/shopowner-dashboard/id`);
   };
 
   const handleViewTranhMosaic = (id) => {
@@ -127,11 +133,19 @@ const HeaderComponent = () => {
                         Đơn Hàng
                       </Button>
                       <Button
+                        onClick={() => {
+                          handleViewShopOwner(user._id);
+                        }}
+                      >
+                        <StoreIcon/> Quản Lý Cửa Hàng  
+                      </Button>
+                      <Button
                         style={{ paddingRight: "10px" }}
                         onClick={handleLogout}
                       >
                         <LogoutIcon /> Đăng Xuất
                       </Button>
+                      
                     </PopUpBox>
                   )}
                 </MenuItem>

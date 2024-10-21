@@ -9,6 +9,7 @@ const verifyToken = (req, res, next) => {
       if (err) {
         return res.status(403).json('Token is not valid!');
       } else {
+        console.log(userPayload);
         req.user = userPayload;
         next();
       }
@@ -28,6 +29,16 @@ const verifyTokenAndAuthorization = (req, res, next) => {
   });
 };
 
+const verifyTokenAndAdminOrShopowner = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.isAdmin || req.user.isShopowner) {
+      next();
+    } else {
+      return res.status(403).json('You are not authorized!');
+    }
+  });
+};
+
 const verifyTokenAndAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req.user.isAdmin) {
@@ -38,8 +49,11 @@ const verifyTokenAndAdmin = (req, res, next) => {
   });
 };
 
+
+
 module.exports = {
   verifyToken,
   verifyTokenAndAuthorization,
   verifyTokenAndAdmin,
+  verifyTokenAndAdminOrShopowner
 };
