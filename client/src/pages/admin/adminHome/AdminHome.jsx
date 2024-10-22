@@ -33,7 +33,7 @@ function AdminHome() {
     const getStats = async () => {
       try {
         const res = await userRequest.get("/users/stats");
-        res.data.map((item) =>
+        res.data.data.map((item) =>
           setUserStats((prev) => [
             ...prev,
             { name: MONTHS[item._id - 1], "New User": item.total },

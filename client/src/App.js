@@ -12,7 +12,6 @@ import {
 import Register from "./pages/common/Register";
 import Cart from "./pages/client/Cart";
 import Error from "./pages/client/Error";
-import Success from "./components/client/Success";
 import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import UserList from "./pages/admin/adminuserlist/UserList";
@@ -32,8 +31,9 @@ import ShopOwnerProductDetail from "./pages/shopowner/shopOwnerProductDetail/Pro
 import OrderList from "./pages/client/Order/OrderList";
 import Profile from "./pages/client/Profile/Profile";
 import UploadPicture from "./pages/client/UploadPicture/UploadPicture";
-import Payment from "./pages/client/Payment/Payment";
 import Introduction from "./pages/client/Introduction/Introduction";
+import SuccessPage from "./pages/TestPayment/SuccessPage";
+import CancelPage from "./pages/TestPayment/CancelPage";
 
 
 
@@ -62,10 +62,12 @@ function App() {
           <Route path="/cart" element={user ? <Cart /> : <Login />} />
           <Route path="/orders" element={user ? <OrderList /> : <Login />} />
           <Route path="/profile/:id" element={user ? <Profile /> : <Login />} />
-          <Route path="/payment" element={<Payment />} />
+          {/* <Route path="/payment" element={<Payment />} /> */}
           <Route path="/productList" element={user ? <ProductList /> : <Login />} />
           <Route path="/introduction" element={user ? <Introduction /> : <Login />} />
 
+          <Route path="/success" element={user ? <SuccessPage /> : <Login />} />
+          <Route path="/cancel" element={user ? <CancelPage /> : <Login />} />
           {/* Admin Routes */}
           <Route path="/home" element={isAdmin ? <AdminHome /> : <HomePage />} />
           <Route
@@ -115,7 +117,7 @@ function App() {
           />
           {/* End Shop Owner Routes */}
           <Route path="*" element={<Error />} />
-          <Route path="/success" element={<Success />} />
+          {/* <Route path="/success" element={<Success />} /> */}
         </Routes>
       </Router>
     </>

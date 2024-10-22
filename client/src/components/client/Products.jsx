@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ProductCard from './ProductCard';
 import ProductCardCate from "./ProductCardCate"
@@ -79,12 +79,20 @@ const Products = ({ cate, filter = 'default', sort }) => {
       <Container>
         {cate ? (
           filteredProducts.length !== 0 ? (
-            filteredProducts.map((p) => <ProductCardCate key={p.id} product={p} />)
+            filteredProducts.map((p,index) =>(
+              <Fragment key={index}>
+                <ProductCardCate key={p.id} product={p} />
+              </Fragment>
+            ) )
           ) : (
             <SoldOut />
           )
         ) : (
-          products.slice(0, 8).map((p) => <ProductCard key={p.id} product={p} />)
+          products.slice(0, 8).map((p,index) =>(
+            <Fragment>
+              <ProductCard key={p.id} product={p} />
+            </Fragment>
+          ))
         )}
       </Container>
     </>

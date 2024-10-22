@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import styled from "styled-components";
-import Navbar from "../../components/client/Navbar";
-import HeaderComponent from "../../components/client/HeaderComponent/HeaderComponent"
+// import Navbar from "../../components/client/Navbar";
+import HeaderComponent from "../../components/client/HeaderComponent/HeaderComponent";
 import Announcement from "../../components/client/Announcement";
-import Footer from "../../components/client/Footer";
+// import Footer from "../../components/client/Footer";
 import { Add, Remove } from "@mui/icons-material";
 import Newsletter from "../../components/client/Newsletter";
 import { useNavigate } from "react-router-dom";
 import { mobile } from "../../utilities/responsive";
 import { useDispatch, useSelector } from "react-redux";
 import { formatCurrency } from "../../utilities/formatCurrency";
-import StripeCheckout from "react-stripe-checkout";
+// import StripeCheckout from "react-stripe-checkout";
 import { userRequest } from "../../utilities/requestMethod";
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping'; import {
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import {
   addToCart,
   createOrder,
   decreaseCartQuantity,
@@ -24,6 +25,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping'; import {
 } from "../../redux/apiCalls";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FooterComponent from "../../components/client/FooterComponent/FooterComponent";
+import { usePayOS, PayOSConfig } from "payos-checkout";
 
 const KEY = process.env.REACT_APP_STRIPE;
 
@@ -178,7 +180,7 @@ const BottomBtn = styled.button`
 const CartNotification = styled.h3`
   color: #3a7187;
   text-align: center;
-`
+`;
 
 const Cart = () => {
   // Get current user
@@ -204,31 +206,32 @@ const Cart = () => {
   const onToken = (token) => {
     setStripeToken(token);
   };
+
   // useEffect(() => {
-    // const makeRequest = async () => {
-    //   try {
-    //     const res = await userRequest.post("/checkout/payment", {
-    //       tokenId: stripeToken.id,
-    //       amount: 5000,
-    //     });
-    //     createOrder(
-    //       dispatch,
-    //       {
-    //         userId: user._id,
-    //         products: cart.cartItems,
-    //         amount: totalPrice,
-    //         address: user.address,
-    //         phone: user.phone,
-    //         status: "Pending"
-    //       }
-    //     )
-    //     deleteCart(dispatch)
-    //     resetCart(dispatch);
-    //     navigate("/cart", {
-    //       state: { stripeData: res.data, products: cart.cartItems },
-    //     });
-    //   } catch (error) { }
-    // };
+  // const makeRequest = async () => {
+  //   try {
+  //     const res = await userRequest.post("/checkout/payment", {
+  //       tokenId: stripeToken.id,
+  //       amount: 5000,
+  //     });
+  //     createOrder(
+  //       dispatch,
+  //       {
+  //         userId: user._id,
+  //         products: cart.cartItems,
+  //         amount: totalPrice,
+  //         address: user.address,
+  //         phone: user.phone,
+  //         status: "Pending"
+  //       }
+  //     )
+  //     deleteCart(dispatch)
+  //     resetCart(dispatch);
+  //     navigate("/cart", {
+  //       state: { stripeData: res.data, products: cart.cartItems },
+  //     });
+  //   } catch (error) { }
+  // };
   //   stripeToken && makeRequest();
   // }, [stripeToken, cart.cartItems, navigate, dispatch]);
 
@@ -242,83 +245,106 @@ const Cart = () => {
 
   const handleDeleteCartItem = (cartItemID) => {
     deleteCartItem(dispatch, cartItemID);
-  }
-  const handlePayment  = () => {
-    localStorage.setItem("cart", cart || [])
-    navigate(`/payment?amount=${totalPrice}`);
-  }
+  };
+
+  const handlePayment = async () => {
+    const res = await userRequest.post(`checkout-payos/payment`, {
+      userId: user._id,
+      products: cart.cartItems,
+      amount: totalPrice,
+      address: user.address,
+      phone: user.phone,
+      status: "Delivering",
+    })
+    localStorage.setItem("cart", cart || []);
+
+    if(res){
+      window.open(res.data.url, '_self');
+    }
+  };
   const [shippingfee] = useState(20000);
 
   return (
     <Container>
       {/* <Navbar /> */}
-      <HeaderComponent/>
+      <HeaderComponent />
       <Announcement />
       <Wrapper>
         <Title>Giỏ Hàng Của Bạn</Title>
         <Top>
-          <TopBtn onClick={() => navigate("/shop")}><KeyboardBackspaceIcon /><span>Tiếp Tục Mua Sắm</span></TopBtn>
+          <TopBtn onClick={() => navigate("/shop")}>
+            <KeyboardBackspaceIcon />
+            <span>Tiếp Tục Mua Sắm</span>
+          </TopBtn>
           <TopTexts>
             <TopText>Giỏ hàng</TopText>
             <TopText>Mục yêu thích (0)</TopText>
           </TopTexts>
-          <TopBtn onClick={() => navigate("/orders")} tone="dark">Lịch sử mua hàng</TopBtn>
+          <TopBtn onClick={() => navigate("/orders")} tone="dark">
+            Lịch sử mua hàng
+          </TopBtn>
         </Top>
         <Bottom>
           <Info>
-            {
-              cart.cartItems ?
-                (cart.cartItems?.map((item) => (
-                  <>
-                    <Product key={item.productId._id}>
-                      <ProductDetail>
-                        <Image src={item.productId.img} />
-                        <Details>
-                          <ProductID>
-                            <b>Mã: </b>
-                            {item.productId._id}
-                          </ProductID>
-                          <ProductName>
-                            <b>Tên sản Phẩm: </b>
-                            {item.productId.title}
-                          </ProductName>
-                          <ProductDesc>
-                            <b>Mô tả: </b>{item.productId.description}
-                          </ProductDesc>
-                          <ProductMaterials>
-                            <b>Nguyên liệu chính: </b>
-                            {item.productId.materials?.toString()}
-                          </ProductMaterials>
-                        </Details>
-                      </ProductDetail>
-                      <PriceDetail>
-                        <AmountContainer>
-                          <Remove
-                            onClick={() =>
-                              handleDecreaseQuantity({
-                                cartItemID: item._id,
-                                quantity: item.quantity - 1,
-                              })
-                            }
-                            style={{ cursor: "pointer" }}
-                          />
-                          <Amount>{item.quantity}</Amount>
-                          <Add
-                            onClick={() => handleAddToCart(item.productId._id)}
-                            style={{ cursor: "pointer" }}
-                          />
-                          <DeleteIcon onClick={() => handleDeleteCartItem(item._id)} style={{ cursor: "pointer" }} />
-                        </AmountContainer>
-                        <Price>
-                          {formatCurrency(item.productId.price * item.quantity)}
-                        </Price>
-                      </PriceDetail>
-                    </Product>
-                    <Hr />
-                  </>
-                )))
-                : <CartNotification>Giỏ hàng trống, đi mua sắm thôi!</CartNotification>
-            }
+            {cart.cartItems ? (
+              cart.cartItems?.map((item,index) => (
+                <Fragment key={index}>
+                  <Product key={item.productId._id}>
+                    <ProductDetail>
+                      <Image src={item.productId.img} />
+                      <Details>
+                        <ProductID>
+                          <b>Mã: </b>
+                          {item.productId._id}
+                        </ProductID>
+                        <ProductName>
+                          <b>Tên sản Phẩm: </b>
+                          {item.productId.title}
+                        </ProductName>
+                        <ProductDesc>
+                          <b>Mô tả: </b>
+                          {item.productId.description}
+                        </ProductDesc>
+                        <ProductMaterials>
+                          <b>Nguyên liệu chính: </b>
+                          {item.productId.materials?.toString()}
+                        </ProductMaterials>
+                      </Details>
+                    </ProductDetail>
+                    <PriceDetail>
+                      <AmountContainer>
+                        <Remove
+                          onClick={() =>
+                            handleDecreaseQuantity({
+                              cartItemID: item._id,
+                              quantity: item.quantity - 1,
+                            })
+                          }
+                          style={{ cursor: "pointer" }}
+                        />
+                        <Amount>{item.quantity}</Amount>
+                        <Add
+                          onClick={() => handleAddToCart(item.productId._id)}
+                          style={{ cursor: "pointer" }}
+                        />
+                        <DeleteIcon
+                          onClick={() => handleDeleteCartItem(item._id)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </AmountContainer>
+                      <Price>
+                        {formatCurrency(item.productId.price * item.quantity)}
+                      </Price>
+                    </PriceDetail>
+                  </Product>
+                  <Hr />
+                </Fragment>
+              ))
+            ) : (
+              <CartNotification>
+                Giỏ hàng trống, đi mua sắm thôi!
+              </CartNotification>
+            )}
           </Info>
           <Summary>
             <SummaryTitle>Đơn Hàng</SummaryTitle>
@@ -332,15 +358,21 @@ const Cart = () => {
             </SummaryDetails>
             <SummaryDetails>
               <SummaryText>Giảm giá</SummaryText>
-              <SummaryPrice>{formatCurrency(totalPrice >= 400000 ? shippingfee : 0)}</SummaryPrice>
+              <SummaryPrice>
+                {formatCurrency(totalPrice >= 400000 ? shippingfee : 0)}
+              </SummaryPrice>
             </SummaryDetails>
             <SummaryDetails style={{ fontWeight: "600" }}>
               <SummaryText>Tổng tiền</SummaryText>
-              <SummaryPrice>{formatCurrency((totalPrice >= 400000) ? totalPrice + 0 : totalPrice + shippingfee)}</SummaryPrice>
+              <SummaryPrice>
+                {formatCurrency(
+                  totalPrice >= 400000
+                    ? totalPrice + 0
+                    : totalPrice + shippingfee
+                )}
+              </SummaryPrice>
             </SummaryDetails>
-            <BottomBtn
-               onClick={handlePayment}
-               >THANH TOÁN</BottomBtn>
+            <BottomBtn onClick={handlePayment}>THANH TOÁN</BottomBtn>
             {/* <StripeCheckout
               name="Mosaics shop"
               image="../../assets/images/logo1.png"
@@ -355,25 +387,29 @@ const Cart = () => {
                onClick={handlePayment}
                >THANH TOÁN</BottomBtn>
             </StripeCheckout> */}
-            <div style={{
-              fontSize: "10px",
-              textAlign: "center",
-              padding: "0px 4px",
-              border: "1px solid teal",
-              backgroundColor: "var(--orange)",
-              gap: "6px",
-              display: "flex",
-              alignItems: "center",
-              color: "#fff"
-            }}>
-              <LocalShippingIcon /><span>Miễn phí giao hàng cho đơn hàng từ </span>{formatCurrency(400000)}
+            <div
+              style={{
+                fontSize: "10px",
+                textAlign: "center",
+                padding: "0px 4px",
+                border: "1px solid teal",
+                backgroundColor: "var(--orange)",
+                gap: "6px",
+                display: "flex",
+                alignItems: "center",
+                color: "#fff",
+              }}
+            >
+              <LocalShippingIcon />
+              <span>Miễn phí giao hàng cho đơn hàng từ </span>
+              {formatCurrency(400000)}
             </div>
           </Summary>
         </Bottom>
       </Wrapper>
       <Newsletter />
-      <FooterComponent/>
-    </Container >
+      <FooterComponent />
+    </Container>
   );
 };
 export default Cart;
