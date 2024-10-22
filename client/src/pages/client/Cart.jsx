@@ -247,83 +247,20 @@ const Cart = () => {
     deleteCartItem(dispatch, cartItemID);
   };
 
-  // const payOSConfig: PayOSConfig = {
-  //   RETURN_URL: "/cart", // required
-  //   ELEMENT_ID: process.env.CLIENT_ID, // required
-  //   CHECKOUT_URL: , // required
-  //   embedded: true, // Nếu dùng giao diện nhúng
-  //   onSuccess: (event: any) => {
-  //     //TODO: Hành động sau khi người dùng thanh toán đơn hàng thành công
-  //   },
-  //   onCancel: (event: any) => {
-  //     //TODO: Hành động sau khi người dùng Hủy đơn hàng
-  //   },
-  //   onExit: (event: any) => {
-  //     //TODO: Hành động sau khi người dùng tắt Pop up
-  //   },
-  // };
-
   const handlePayment = async () => {
-    
-
-    const { res, err } = await userRequest.post(`checkout-payos/payment`, {
+    const res = await userRequest.post(`checkout-payos/payment`, {
       userId: user._id,
       products: cart.cartItems,
       amount: totalPrice,
       address: user.address,
       phone: user.phone,
-      status: "Pending",
+      status: "Delivering",
     })
-    
-    console.log(res);
-    // const payOSConfig: PayOSConfig = {
-    //   RETURN_URL: "", // required
-    //   ELEMENT_ID: "", // required
-    //   CHECKOUT_URL: "", // required
-    //   embedded: true, // Nếu dùng giao diện nhúng
-    //   onSuccess: (event: any) => {
-    //     //TODO: Hành động sau khi người dùng thanh toán đơn hàng thành công
-    //   },
-    //   onCancel: (event: any) => {
-    //     //TODO: Hành động sau khi người dùng Hủy đơn hàng
-    //   },
-    //   onExit: (event: any) => {
-    //     //TODO: Hành động sau khi người dùng tắt Pop up
-    //   },
-    // };
+    localStorage.setItem("cart", cart || []);
 
-
-    // (res)
-    //   ? window.location.open(res.url)
-    //   : console("Khong the mo popup");
-
-    // createOrder(
-    //   dispatch,
-    //   {
-    //     userId: user._id,
-    //     products: cart.cartItems,
-    //     amount: totalPrice,
-    //     address: user.address,
-    //     phone: user.phone,
-    //     status: "Pending"
-    //   }
-    // )
-    deleteCart(dispatch);
-    resetCart(dispatch);
-
-    // if (res) window.open(res.url, '_self');
-    // if (err) toast.error(err.message);
-    // setIsProcessing(false);
-    // navigate("/cart", {
-    //   state: { products: cart.cartItems },
-    //   // state: { stripeData: res.data, products: cart.cartItems },
-    // });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-    // localStorage.setItem("cart", cart || [])
-    // navigate(`/payment?amount=${totalPrice}`);
+    if(res){
+      window.open(res.data.url, '_self');
+    }
   };
   const [shippingfee] = useState(20000);
 

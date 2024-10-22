@@ -276,3 +276,9 @@ export const updateOrderStatus = async (dispatch, orderId, status) => {
     dispatch(updateOrderStatusSuccess(res.data));
   } catch (error) { }
 };
+
+export const getCheckoutUrl = async (paymentData) => {
+  let res = await userRequest.post(`/api/checkout-payos/payment`, paymentData);
+  return res.data;
+};
+

@@ -8,31 +8,25 @@ const payos = new Payos(
 );
 
 router.post("/payment", async (req, res) => {
-    console.log("start payment-pay-os");
-    console.log(req.body);
+    // console.log("start payment-pay-os");
+    // console.log(req.body);
+    const amountTotal = req.body.amount;
+    // console.log(amountTotal);
     const order = {
         amount: 10000,
         description: "Thanh toan tien",
         orderCode: Number(String(Date.now()).slice(-6)),
-        returnUrl: `${process.env.REACT_URL}/success`,
-        cancelUrl: `${process.env.REACT_URL}/cancel`,
+        returnUrl: `${process.env.REACT_URL}/success?&amount=${amountTotal}`,
+        cancelUrl: `${process.env.REACT_URL}/cart`,
     }
-
     try {
         const paymentLinkResponse = await payos.createPaymentLink(order);
-        console.log(paymentLinkResponse.checkoutUrl);
-        // res.status(200).json({url: paymentLinkResponse.checkoutUrl});
-        window.open(paymentLinkResponse.checkoutUrl, '_blank');
-        // res.status(200).redirect(paymentLinkResponse.checkoutUrl);
+        // console.log(paymentLinkResponse.checkoutUrl);
+        res.status(200).json({url: paymentLinkResponse.checkoutUrl});
     } catch (error) {
         console.error(error);
-        res.send('Something went error');
+        res.json({error: error})
     }
-    // const paymentLinkResponse = await payos.createPaymentLink(order);
-    // // res.redirect(303,paymentLinkResponse.checkoutUrl);
-    // res.status(200).json({url: paymentLinkResponse.checkoutUrl});
-    // res.redirect(303,paymentLinkResponse.checkoutUrl);
-    // res.redirect(303, paymentLink.checkoutUrl);
 })
 
 module.exports = router;

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Cancel = () => {
+const CancelPage = () => {
   return (
     <div>
       Cancel page
@@ -8,4 +8,4 @@ const Cancel = () => {
   )
 }
 
-export default Cancel
+export default CancelPage
