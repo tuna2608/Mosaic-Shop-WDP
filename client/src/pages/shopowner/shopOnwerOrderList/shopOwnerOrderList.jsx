@@ -65,7 +65,7 @@ function ShopOwnerOrderList() {
         }
         updateOrderStatus(dispatch, orderId, type);
         setOrders((prevOrders) =>
-            (prevOrders || []).map((order) =>
+            (prevOrders).map((order) =>
                 order._id === orderId ? { ...order, status: type } : order
             )
         );

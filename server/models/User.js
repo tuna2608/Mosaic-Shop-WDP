@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema(
     },
     isShopowner: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     gender:{type: Boolean},
     img: {type: String},

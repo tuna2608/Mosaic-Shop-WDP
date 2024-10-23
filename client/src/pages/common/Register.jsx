@@ -164,7 +164,7 @@ const Register = () => {
       </AnimationContainer>
       <RegisterContainer>
         <RegisterForm>
-          <Title>Sign up to A'More</Title>
+          <Title>Sign up to Mosaics</Title>
           <Button>
             <GoogleImage src="./images/google.jpg" />
             Sign up with Google

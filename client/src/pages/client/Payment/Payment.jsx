@@ -40,25 +40,26 @@ export default function Payment() {
   const paramValue = query.get("amount");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const user = useSelector((state) => state.user.currentUser);
   const cart = localStorage.getItem("cart") || [];
 
-  const makeRequest = async () => {
-    try {
-      createOrder(dispatch, {
-        userId: user._id,
-        products: cart.cartItems,
-        amount: paramValue,
-        address: user.address,
-        phone: user.phone,
-        status: "Pending",
-      });
-      deleteCart(dispatch);
-      resetCart(dispatch);
-      window.location.href = "/cart";
-    } catch (error) {}
-  };
+  // useEffect (() => {
+    const makeRequest = async () => {
+      try {
+        createOrder(dispatch, {
+          userId: user._id,
+          products: cart.cartItems,
+          amount: paramValue,
+          address: user.address,
+          phone: user.phone,
+          status: "Pending",
+        });
+        deleteCart(dispatch);
+        resetCart(dispatch);
+        window.location.href = "/cart";
+      } catch (error) {}
+    };
+  // },[])
 
   return (
     <Container>

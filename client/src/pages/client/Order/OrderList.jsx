@@ -172,7 +172,7 @@ const OrderList = () => {
           </BootstrapDialog>
         )}
       </div>
-      <FooterComponent />
+      <FooterComponent/>
     </div>
   );
 };

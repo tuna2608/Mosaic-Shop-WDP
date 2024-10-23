@@ -14,10 +14,10 @@ const Container = styled.div`
 `;
 
 const AnimationContainer = styled.div`
-  flex: 3;
+  flex: 5;
   ${mobile({
-  display: "none",
-})}
+    display: "none",
+  })}
 `;
 
 const LoginContainer = styled.div`
@@ -25,12 +25,12 @@ const LoginContainer = styled.div`
   display: flex;
   align-items: center;
   ${mobile({
-  width: "100%",
-  display: "flex",
-  flexFlow: "column",
-  alignItems: "center",
-  padding: "30px",
-})}
+    width: "100%",
+    display: "flex",
+    flexFlow: "column",
+    alignItems: "center",
+    padding: "30px",
+  })}
 `;
 
 const LoginForm = styled.form`
@@ -42,12 +42,12 @@ const LoginForm = styled.form`
   flex-flow: column;
   gap: 10px;
   ${mobile({
-  margin: "0",
-  padding: "30px",
-  // alignItems: "center",
-  justifyContent: "center",
-  height: "100%",
-})}
+    margin: "0",
+    padding: "30px",
+    // alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+  })}
 `;
 
 const Title = styled.h2`
@@ -84,14 +84,14 @@ const Input = styled.input`
   margin-bottom: 20px;
 `;
 
-const Text = styled.p`
+const Text = styled.div`
   text-align: center;
   font-size: 14px;
   color: #8b8282;
   margin: 10px 0;
 `;
 
-const Label = styled.p`
+const Label = styled.div`
   font-weight: bold;
   display: flex;
   justify-content: space-between;
@@ -99,6 +99,13 @@ const Label = styled.p`
 const GoogleImage = styled.img`
   width: 30px;
   height: 30px;
+`;
+
+const ForgotContainer = styled.div`
+  color: #000,
+  font-weight: 500,
+  font-size: 14px,
+  text-decoration: underline,
 `;
 
 const Login = () => {
@@ -191,7 +198,7 @@ const Login = () => {
       </AnimationContainer>
       <LoginContainer>
         <LoginForm>
-          <Title>Sign in to A'More</Title>
+          <Title>Sign in to Mosaics</Title>
           <Button>
             <GoogleImage src="/images/google.jpg" />
             Sign in with Google
@@ -199,7 +206,7 @@ const Login = () => {
           <Text>or Sign in with email</Text>
           <Label>Email</Label>
           <Input
-            required="true"
+            // required="true"
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -207,7 +214,7 @@ const Login = () => {
           />
           <Label>
             Password
-            <div
+            <ForgotContainer
               style={{
                 color: "#000",
                 fontWeight: "500",
@@ -216,10 +223,10 @@ const Login = () => {
               }}
             >
               Forgot?
-            </div>
+            </ForgotContainer>
           </Label>
           <Input
-            required="true"
+            // required="true"
             value={password}
             type="password"
             onChange={(e) => {
