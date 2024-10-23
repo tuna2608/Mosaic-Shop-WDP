@@ -27,6 +27,7 @@ import ShopOwnerProductList from "./pages/shopowner/shopOnwerProductList/shopOwn
 import ShopOwnerOrderList from "./pages/shopowner/shopOnwerOrderList/shopOwnerOrderList";
 import SONewproduct from "./pages/shopowner/shoponwerProductNew/NewProduct";
 import ShopOwnerProductDetail from "./pages/shopowner/shopOwnerProductDetail/ProductDetail";
+import SOCensorship from "./pages/client/ShopOwnerCensorship/SOCensorship";
 
 import OrderList from "./pages/client/Order/OrderList";
 import Profile from "./pages/client/Profile/Profile";
@@ -34,6 +35,7 @@ import UploadPicture from "./pages/client/UploadPicture/UploadPicture";
 import Introduction from "./pages/client/Introduction/Introduction";
 import SuccessPage from "./pages/TestPayment/SuccessPage";
 import CancelPage from "./pages/TestPayment/CancelPage";
+
 
 
 
@@ -98,7 +100,7 @@ function App() {
           {/* End Admin Routes */}
 
           {/* Shop owner Routes */}
-          <Route path="/shopowner-dashboard/:userId" element={user ? <ShopOwnerHome/> : <Login />} />
+          <Route path="/shopowner-dashboard/:userId" element={isShopowner ? <ShopOwnerHome/> : <SOCensorship />} />
           <Route
             path="/ShopOwnerProductList"
             element={isShopowner ? <ShopOwnerProductList /> : <Login />}

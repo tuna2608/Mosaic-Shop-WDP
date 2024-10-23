@@ -44,7 +44,7 @@ const AdminNavBar = () => {
       <div className="right">
         <div className="info" onClick={popup}>
           <NotificationsOutlinedIcon />
-          <img src="/images/admin/avatar.jpg" alt="admin_img" />
+          <img src={user?.avatar || "/images/utils/noavatar.png"} alt="avatar"/>
         </div>
         {isPopuped && <div className="popupBox">
           <button className="edit-btn"> <ModeEditOutlineIcon /> Edit Profile</button>

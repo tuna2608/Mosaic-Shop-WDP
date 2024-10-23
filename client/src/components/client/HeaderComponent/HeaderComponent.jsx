@@ -137,7 +137,7 @@ const HeaderComponent = () => {
                           handleViewShopOwner(user._id);
                         }}
                       >
-                        <StoreIcon/> Quản Lý Cửa Hàng  
+                        <StoreIcon/> Quản Lý Cửa Hàng
                       </Button>
                       <Button
                         style={{ paddingRight: "10px" }}
